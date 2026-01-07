@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 (2026-01-07)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/onkernel/hypeman-ts/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* Resource accounting ([57ff511](https://github.com/onkernel/hypeman-ts/commit/57ff511aa73bbc08b67496d7b807418b9342dc87))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([48ae7b9](https://github.com/onkernel/hypeman-ts/commit/48ae7b93d321533d96fc9e5be246450fb93eb725))
+
 ## 0.1.0 (2025-12-23)
 
 Full Changelog: [v0.0.2...v0.1.0](https://github.com/onkernel/hypeman-ts/compare/v0.0.2...v0.1.0)
