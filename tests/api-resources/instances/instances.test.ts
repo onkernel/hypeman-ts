@@ -29,10 +29,15 @@ describe('resource instances', () => {
       image: 'docker.io/library/alpine:latest',
       name: 'my-workload-1',
       devices: ['l4-gpu'],
+      disk_io_bps: '100MB/s',
       env: { PORT: '3000', NODE_ENV: 'production' },
       hotplug_size: '2GB',
       hypervisor: 'cloud-hypervisor',
-      network: { enabled: true },
+      network: {
+        bandwidth_download: '1Gbps',
+        bandwidth_upload: '1Gbps',
+        enabled: true,
+      },
       overlay_size: '20GB',
       size: '2GB',
       vcpus: 2,
@@ -102,7 +107,11 @@ describe('resource instances', () => {
     await expect(
       client.instances.logs(
         'id',
-        { follow: true, source: 'app', tail: 0 },
+        {
+          follow: true,
+          source: 'app',
+          tail: 0,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hypeman.NotFoundError);
