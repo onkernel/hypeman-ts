@@ -17,6 +17,17 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  Build,
+  BuildCreateParams,
+  BuildEvent,
+  BuildEventsParams,
+  BuildListResponse,
+  BuildPolicy,
+  BuildProvenance,
+  BuildStatus,
+  Builds,
+} from './resources/builds';
+import {
   AvailableDevice,
   Device,
   DeviceCreateParams,
@@ -37,8 +48,18 @@ import {
   Ingresses,
 } from './resources/ingresses';
 import {
+  DiskBreakdown,
+  GPUProfile,
+  GPUResourceStatus,
+  PassthroughDevice,
+  ResourceAllocation,
+  ResourceStatus,
+  Resources,
+} from './resources/resources';
+import {
   Volume,
   VolumeAttachment,
+  VolumeCreateFromArchiveParams,
   VolumeCreateParams,
   VolumeListResponse,
   Volumes,
@@ -758,6 +779,8 @@ export class Hypeman {
   volumes: API.Volumes = new API.Volumes(this);
   devices: API.Devices = new API.Devices(this);
   ingresses: API.Ingresses = new API.Ingresses(this);
+  resources: API.Resources = new API.Resources(this);
+  builds: API.Builds = new API.Builds(this);
 }
 
 Hypeman.Health = Health;
@@ -766,6 +789,7 @@ Hypeman.Instances = Instances;
 Hypeman.Volumes = Volumes;
 Hypeman.Devices = Devices;
 Hypeman.Ingresses = Ingresses;
+Hypeman.Builds = Builds;
 
 export declare namespace Hypeman {
   export type RequestOptions = Opts.RequestOptions;
@@ -798,6 +822,7 @@ export declare namespace Hypeman {
     type VolumeAttachment as VolumeAttachment,
     type VolumeListResponse as VolumeListResponse,
     type VolumeCreateParams as VolumeCreateParams,
+    type VolumeCreateFromArchiveParams as VolumeCreateFromArchiveParams,
   };
 
   export {
@@ -818,5 +843,27 @@ export declare namespace Hypeman {
     type IngressTarget as IngressTarget,
     type IngressListResponse as IngressListResponse,
     type IngressCreateParams as IngressCreateParams,
+  };
+
+  export {
+    type Resources as Resources,
+    type DiskBreakdown as DiskBreakdown,
+    type GPUProfile as GPUProfile,
+    type GPUResourceStatus as GPUResourceStatus,
+    type PassthroughDevice as PassthroughDevice,
+    type ResourceAllocation as ResourceAllocation,
+    type ResourceStatus as ResourceStatus,
+  };
+
+  export {
+    Builds as Builds,
+    type Build as Build,
+    type BuildEvent as BuildEvent,
+    type BuildPolicy as BuildPolicy,
+    type BuildProvenance as BuildProvenance,
+    type BuildStatus as BuildStatus,
+    type BuildListResponse as BuildListResponse,
+    type BuildCreateParams as BuildCreateParams,
+    type BuildEventsParams as BuildEventsParams,
   };
 }

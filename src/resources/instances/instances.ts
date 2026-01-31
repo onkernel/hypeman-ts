@@ -194,9 +194,19 @@ export interface Instance {
   state: 'Created' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
+   * Disk I/O rate limit (human-readable, e.g., "100MB/s")
+   */
+  disk_io_bps?: string;
+
+  /**
    * Environment variables
    */
   env?: { [key: string]: string };
+
+  /**
+   * GPU information attached to the instance
+   */
+  gpu?: Instance.GPU;
 
   /**
    * Whether a snapshot exists for this instance
@@ -256,9 +266,34 @@ export interface Instance {
 
 export namespace Instance {
   /**
+   * GPU information attached to the instance
+   */
+  export interface GPU {
+    /**
+     * mdev device UUID
+     */
+    mdev_uuid?: string;
+
+    /**
+     * vGPU profile name
+     */
+    profile?: string;
+  }
+
+  /**
    * Network configuration of the instance
    */
   export interface Network {
+    /**
+     * Download bandwidth limit (human-readable, e.g., "1Gbps", "125MB/s")
+     */
+    bandwidth_download?: string;
+
+    /**
+     * Upload bandwidth limit (human-readable, e.g., "1Gbps", "125MB/s")
+     */
+    bandwidth_upload?: string;
+
     /**
      * Whether instance is attached to the default network
      */
@@ -388,9 +423,20 @@ export interface InstanceCreateParams {
   devices?: Array<string>;
 
   /**
+   * Disk I/O rate limit (e.g., "100MB/s", "500MB/s"). Defaults to proportional share
+   * based on CPU allocation if configured.
+   */
+  disk_io_bps?: string;
+
+  /**
    * Environment variables
    */
   env?: { [key: string]: string };
+
+  /**
+   * GPU configuration for the instance
+   */
+  gpu?: InstanceCreateParams.GPU;
 
   /**
    * Additional memory for hotplug (human-readable format like "3GB", "1G")
@@ -418,6 +464,21 @@ export interface InstanceCreateParams {
   size?: string;
 
   /**
+   * Skip guest-agent installation during boot. When true, the exec and stat APIs
+   * will not work for this instance. The instance will still run, but remote command
+   * execution will be unavailable.
+   */
+  skip_guest_agent?: boolean;
+
+  /**
+   * Skip kernel headers installation during boot for faster startup. When true, DKMS
+   * (Dynamic Kernel Module Support) will not work, preventing compilation of
+   * out-of-tree kernel modules (e.g., NVIDIA vGPU drivers). Recommended for
+   * workloads that don't need kernel module compilation.
+   */
+  skip_kernel_headers?: boolean;
+
+  /**
    * Number of virtual CPUs
    */
   vcpus?: number;
@@ -430,9 +491,31 @@ export interface InstanceCreateParams {
 
 export namespace InstanceCreateParams {
   /**
+   * GPU configuration for the instance
+   */
+  export interface GPU {
+    /**
+     * vGPU profile name (e.g., "L40S-1Q"). Only used in vGPU mode.
+     */
+    profile?: string;
+  }
+
+  /**
    * Network configuration for the instance
    */
   export interface Network {
+    /**
+     * Download bandwidth limit (external→VM, e.g., "1Gbps", "125MB/s"). Defaults to
+     * proportional share based on CPU allocation.
+     */
+    bandwidth_download?: string;
+
+    /**
+     * Upload bandwidth limit (VM→external, e.g., "1Gbps", "125MB/s"). Defaults to
+     * proportional share based on CPU allocation.
+     */
+    bandwidth_upload?: string;
+
     /**
      * Whether to attach instance to the default network
      */
